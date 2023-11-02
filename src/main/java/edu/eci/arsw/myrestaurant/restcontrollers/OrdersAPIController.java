@@ -16,6 +16,7 @@
  */
 package edu.eci.arsw.myrestaurant.restcontrollers;
 
+import edu.eci.arsw.myrestaurant.beans.impl.BasicBillCalculator;
 import edu.eci.arsw.myrestaurant.model.Order;
 import edu.eci.arsw.myrestaurant.model.ProductType;
 import edu.eci.arsw.myrestaurant.model.RestaurantProduct;
@@ -49,14 +50,17 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class OrdersAPIController {
     @Autowired
     RestaurantOrderServices ros;
+    BasicBillCalculator bbc;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> GetOrderHandler() {
             try {
                 return new ResponseEntity<>(ros.getOrders(), HttpStatus.ACCEPTED);
+                //return new ResponseEntity<>(bbc.calculateBill(), HttpStatus.ACCEPTED);
         } catch (OrderServicesException ex) {
             Logger.getLogger(OrderServicesException.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("Error bla bla bla", HttpStatus.NOT_FOUND);
+            Logger.getLogger(BasicBillCalculator.class.getName()).log(Level.SEVERE,null,ex);
+            return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND);
         }
     }
 }
